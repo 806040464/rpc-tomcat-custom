@@ -10,10 +10,19 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>tomcat-custom-app</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
     </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.zoe.custom</groupId>
+            <artifactId>tomcat-custom-webserver</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 
 </project>

@@ -19,7 +19,7 @@ import java.lang.reflect.Proxy;
  * @author zhaoccf
  * @version 1.0.0
  * @description java.lang.reflect.Proxy#newProxyInstance(java.lang.ClassLoader, java.lang.Class[], java.lang.reflect.InvocationHandler)创建动态代理
- *              拦截方法调用，将对应方法调用相关信息通过netty发送至服务端进行反射调用后结果返回，达到远程过程调用的需要
+ * 拦截方法调用，将对应方法调用相关信息通过netty发送至服务端进行反射调用后结果返回，达到远程过程调用的需要
  * @date 2022/10/7 16:48
  */
 public class RpcProxy {
