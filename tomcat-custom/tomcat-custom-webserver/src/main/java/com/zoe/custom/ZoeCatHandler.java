@@ -16,6 +16,7 @@ import java.util.Map;
  */
 @AllArgsConstructor
 public class ZoeCatHandler extends ChannelInboundHandlerAdapter {
+    private static Object lock = new Object();
     //线程安全  servlet--> 对象
     private Map<String, ZoeServlet> nameToServletMap;
     //线程不安全  servlet--> 全限定名称
@@ -37,7 +38,11 @@ public class ZoeCatHandler extends ChannelInboundHandlerAdapter {
             servlet = nameToServletMap.get(servletName);
         } else if (nameToClassNameMap.containsKey(servletName)) {
             if (null == nameToServletMap.get(servletName)) {
-                synchronized (this) {
+                //synchronized经过JDK优化，性能某些场景不弱于lock
+                //避免在静态方法中使用synchronized修饰方法或者使用synchronized (this) ，获取的是类锁，类锁会阻塞其它线程对同步方法的调用，尽量避免对类锁的使用，尤其是在多读多写的场景下
+                //单例模式下synchronized (lock)并没有带来多大性能上的提升
+                synchronized (lock) {
+                    //DCL(双重检查锁)第二次检查，预防两个线程同时通过第一次检查并尝试获取锁，线程A获得锁，线程B等待，A创建对象实例释放，B获得锁，直接再次创建对象实例
                     if (null == nameToServletMap.get(servletName)) {
                         String clsName = nameToClassNameMap.get(servletName);
                         servlet = (ZoeServlet) Class.forName(clsName).newInstance();
